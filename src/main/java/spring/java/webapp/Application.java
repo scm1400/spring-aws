@@ -1,11 +1,4 @@
-/*
-안좋은 예시
-1. 코드 작성
-2. 프로그램(Tomcat) 실행
-3. Postman과 같은 API 테스트 도구로 HTTP 요청
-4. 요청 결과를 System.out.println()
-5. 결과가 다르면 다시 프로그램(Tomcat)을 중지하고 코드를 수정
-*/
+package spring.java.webapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
