@@ -1,5 +1,6 @@
 package spring.java.webapp.web;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.java.webapp.service.posts.PostsService;
+import spring.java.webapp.web.dto.PostsResponseDto;
 import spring.java.webapp.web.dto.PostsSaveRequestDto;
 import spring.java.webapp.web.dto.PostsUpdateRequestDto;
 
@@ -25,4 +27,11 @@ public class PostsApiController {
     public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
         return postsService.update(id, requestDto);
     }
+
+    @GetMapping("/api/v1/posts/{id}")
+    public PostsResponseDto findById(@PathVariable Long id) {
+        return postsService.findById(id);
+    }
 }
+
+// insert into posts (author,content,title) values('1','2','3');

@@ -113,7 +113,9 @@ Spring Data JPA의 등장 이유는 크게 두가지가 있다
 
 <br>
 
-<h3> JpaRepository </h3>
+### JpaRepository 
+
+<br>
 
 `JpaRepository<Entity 클래스, PK(PrimaryKey) 타입>`을 상속하면 기본적인 CRUD 메소드가 자동으로 생성됨. `@Repository` 어노테이션을 추가할 필요도 없음 👍 <br>
 🌞주의할 점 : Entity 클래스와 기본 Entity Repository는 함께 위치해야한다
@@ -132,6 +134,51 @@ public interface PostsRepository extends JpaRepository<Posts,Long> {
 - 이 상태에서 해당 데이터 값을 변경하면 트랜잭션이 끝나는 시점에 해당 테이블에 변경분을 반영한다. 즉, Entity 객체의 값만 변경하면 별도로 Update 쿼리를 날릴 필요가 없다. 이 개념을 <Strong>더티 체킹(DirtyChecking)</Strong>이라고 한다.
 - 참고 링크 : <a href="https://jojoldu.tistory.com/415">더티 체킹(DirtyChecking)이란?</a>
 
+<br>
+
+### JPA Auditing으로 생성시간/수정시간 자동화하기
+<br>
+JPA Auditing 없을 때 생성일 추가 코드 예제
+
+```java
+public void savePosts(){
+  posts.setCreateDate(new LocalDate());
+  postsRepository.save(posts);
+}
+```
+
+JPA Auditing 적용 - `BaseTimeEntity.java`<br>
+모든 Entity의 상위 클래스가 되어 Entity들의 CreatedDate, modifiedDate를 자동으로 관리함.
+```java
+import java.time.LocalDateTime;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.Getter;
+
+@Getter
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseTimeEntity {
+
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedDate;
+
+}
+```
+
+`Posts.java`클래스가 BaseTimeEntity를 상속받도록 변경.
+```java
+public class Posts extends BaseTimeEntity{
+  ...
+}
+```
 
 <br>
 
@@ -175,6 +222,14 @@ public interface PostsRepository extends JpaRepository<Posts,Long> {
    - `@AfterEach`
      - 테스트가 끝날 때마다 수행되는 메소드를 지정
      - 전체 테스트를 수행할 때 테스트간 데이터 침범을 막기 위해 사용.
+8. `@MappedSuperclass`
+   - JPA Entity 클래스들이 BaseTimeEntity을 상속할 경우 필드들도 칼럼으로 인식하도록 함.
+9. `@EntityListner`
+    - BaseTimeEntity 클래스에 Auditing 기능을 포함시킴.
+10. `@CreatedDate` / `@LastModifiedDate`
+    - Entity가 생성/수정 될 때 시간이 자동 저장됨.
+11. `@EnableJpaAuditing`
+    - JPA Auditing을 활성화 해줌. 메인클래스에 추가하는듯?
 
 생성자와 `Builder`의 차이
 ```java
