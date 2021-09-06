@@ -263,7 +263,7 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialec
 
 <br>
 
-<img src="./spring_layer.png">
+<img src="README_image/spring_layer.png">
 
 <br>
 
@@ -377,6 +377,9 @@ public Order cancelOrder(int orderId){
 <br>
 
 ### 머스테치란? (what is Mustach)
+
+<img src="README_image/mustache.png"> 
+
 머스테치는 수많은 언어를 지원하는 가장 심플한 템플릿 엔진이다.<br>
 Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 있다.<br>
 그러다 보니 자바에서 사용될 때는 서버 템플릿 엔진으로, JS에서 사용될 때는 클라이언트 템플릿 엔진으로 모두 사용할 수 있다.
@@ -393,3 +396,36 @@ Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 �
 - 문법이 다른 템플릿 엔진보다 심플하다.
 - 로직 코드를 사용할 수 없어 View의 역할과 서버의 역할이 명확하게 분리됨.
 - `Mustache.js`와 `Mustache.java` 2가지가 다 있어, 하나의 문법으로 클라이언트/서버 템플릿을 모두 사용 가능하다.
+
+<br>
+
+### Mustache 기본 문법 
+
+<br>
+
+출처: <a href="https://bibi6666667.tistory.com/269">티스토리 블로그</a>
+
+- 변수
+  - `{{` , `}}` 사이에 변수명을 입력한다.
+    - 문자열은 자동 HTML 이스케이프 된다.
+    - 이스케이프(Escape)란 특정 문자를 HTML로 변환하는 행위.
+    - 이스케이프되지 않은 문자열을 출력하려면 `{{{`, `}}}`을 사용한다.
+- 복잡한 객체
+  - 객체 안에 객체가 포함되어 있을 때는 점 문법(dot-syntax)을 사용한다.
+    - ex) `{{company.address.country}}`
+
+- 섹션 (반복문, 조건문)
+  - 섹션은 `{{#변수명}}` 으로 시작하고 `{{/변수명}}` 으로 끝난다.
+  - 섹션은 주어진 값에 따라 조건문 / 반복문으로 사용된다.
+    - 변수가 배열이면 반복문으로 사용됨.
+    - 변수가 배열이 아니면 조건문으로 사용됨.
+      - `0`, `false`, `빈 문자열`은 거짓으로 판단하며 섹션 내용이 출력되지 않는다.
+      - 배열이라도 빈 배열은 거짓 조건문으로 취급하며 섹션 내용이 출력되지 않는다.
+- 반전 섹션
+  - `{{^변수명}}` 으로 시작하고 `{{/변수명}}` 으로 끝난다.
+  - 반전 섹션은 섹션과 반대되는 조건에서만 출력되는 블럭이다.
+    - 섹션에 사용된 적이 없는 변수일 때
+    - 변수의 값이 `false`, `0`, `빈 문자열` 일 때
+    - 변수가 빈 배열일 때
+- 주석
+  - `{{!` 로 시작하고 `}}` 로 끝난다.
