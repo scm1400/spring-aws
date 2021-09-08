@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import lombok.RequiredArgsConstructor;
 import spring.java.webapp.service.posts.PostsService;
 import spring.java.webapp.web.dto.PostsResponseDto;
-import spring.java.webapp.web.dto.PostsUpdateRequestDto;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequiredArgsConstructor
@@ -34,7 +31,7 @@ public class IndexController {
     public String postsUpdate (@PathVariable Long id, Model model) {
         PostsResponseDto dto = postsService.findById(id);
         model.addAttribute("post", dto);
-        
+
         return "posts-update";
     }
     
