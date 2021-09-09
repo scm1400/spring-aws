@@ -1,3 +1,7 @@
+# 스프링 부트와 AWS로 혼자 구현하는 웹 서비스
+
+</br>
+
 <details>
 <summary> HelloControllerTest.java</summary>
 
@@ -27,6 +31,7 @@ public class HelloControllerTest {
 
 }
 ```
+
 </details>
 
 </br>
@@ -56,16 +61,19 @@ public class HelloControllerTest {
     - 응답 본문의 내용을 검증
     - Controller에서 "hello"를 리턴하기 때문에 이 값이 맞는지 검증함.
 
-
-</br><hr></br>
-
-<h2> JPA 소개</h2>
 </br>
 
+---
+
+</br>
+
+## JPA 소개
+
+</br>
 
 웹 어플리케이션에서 관계형 데이터베이스는 빠질 수 없는 요소이다.</br>
 그러다 보니 객체를 관계형 데이터 베이스에서 관리하는 것이 중요하다.</br>
-개발자가 아무리 자바 클래스를 아름답게 설계해도, SQL을 통해야만 데이터베이스에 저장하고 조회할 수 있다.</br> 
+개발자가 아무리 자바 클래스를 아름답게 설계해도, SQL을 통해야만 데이터베이스에 저장하고 조회할 수 있다.</br>
 결국, 관계형 데이터베이스를 사용해야만 하는 상황에서 SQL은 피할 수 없는 것이다.</br>
  상속, 1:N 등 다양한 객체 모델링을 데이터베이스로는 구현 할 수 없다.</br>그러다보니 웹 어플리케이션 개발은 점점 데이터베이스 모델링에만 집중하게되는데..</br>JPA는 이런 문제점을 해결하기 위해 등장한 기술이다.
 </br>
@@ -76,10 +84,12 @@ JPA를 사용하면 SQL에 종속적인 개발을 하지 않아도 되는것이�
 </br>
 
 User가 본인이 속한 Group을 가져온 코드
+
 ```java
  User user = findUser();
  Group gorup = user.getGroup();
 ```
+
 </br>
 
 위 코드에 데이터베이스가 추가되는 경우
@@ -87,43 +97,54 @@ User가 본인이 속한 Group을 가져온 코드
 ```java
 User user = userDao.findUser();
 Group group = groupDao.findGroup(user.getGroupId());
-``` 
+```
 
-</br><hr></br>
+</br>
 
-<h2> Spring Data JPA </h2>
+---
+
+</br>
+
+## Spring Data JPA
+
 </br>
 JPA는 인터페이스로서 자바 표중명세서이다. </br>
-인터페이스인 JPA를 사용하기 위해서는 Hibernate, Eclipse Link 등 구현체가 필요하다. </br>
-하지만 Spring에서 JPA를 사용할 때는 이 구현체들을 직접 다루지 않고 구현체들을 좀 더 쉽게 추상화시킨 <strong>Spring Data JPA</strong> 라는 모듈을 이용하여 JPA 기술을 다룬다.
+인터페이스인 JPA를 사용하기 위해서는 Hibernate, Eclipse Link 등 구현체가 필요하다.
+</br>
+하지만 Spring에서 JPA를 사용할 때는 이 구현체들을 직접 다루지 않고 구현체들을 좀 더 쉽게 추상화시킨 `Spring Data JPA` 라는 모듈을 이용하여 JPA 기술을 다룬다.
+
 </br></br>
 
 JPA와 Spring Data JPA의 관계
-<pre>
-JPA <- Hibernate <- Spring Data JPA
-</pre>
+
+</br>
+
+> JPA <- Hibernate <- Spring Data JPA
 
 Hibernate를 쓰는 것과 Spring Data JPA를 쓰는 것 사이에는 큰 차이가 없지만 그럼에도 스프링 진영에서는 Spring Data JPA를 개발했다.</br>
-Spring Data JPA의 등장 이유는 크게 두가지가 있다
+Spring Data JPA의 등장 이유는 크게 두 가지가 있다.
+
 - 구현체 교체의 용이성
 - 저장소 교체의 용이성
 
 현재는 Hibernate를 사용하고 있지만 언젠가 Hibernate를 대체하는 구현체가 나와 교체를 해야하는 상황이 온다면 Spring Data JPA에서는 이를 아주 쉽게 교체 할 수 있도록 해놓았다.</br>
-관계형 데이터베이스를 사용하다가 MongoDB 등 비관계형 데이터베이스로 교체가 필요할 때 Spring Data JPA에서 Spring Data MongoDB로 의존성만 교체하면 된다.
+관계형 데이터베이스를 사용하다가 MongoDB 등 비관계형 데이터베이스로 교체가 필요할 때 Spring Data JPA에서 Spring Data MongoDB로 의존성만 교체하면 된
+다.
 
 </br>
 
-### JpaRepository 
+### JpaRepository
 
 </br>
 
-`JpaRepository<Entity 클래스, PK(PrimaryKey) 타입>`을 상속하면 기본적인 CRUD 메소드가 자동으로 생성됨. `@Repository` 어노테이션을 추가할 필요도 없음 👍 </br>
+`JpaRepository<Entity 클래스, PK(PrimaryKey) 타입>`을 상속하면 기본적인 CRUD 메소드가 자동으로 생성됨. `@Repository` 어노테이션을 추가할 필요도 없음 👍 </br></br>
 🌞주의할 점 : Entity 클래스와 기본 Entity Repository는 함께 위치해야한다
 
 ```java
 public interface PostsRepository extends JpaRepository<Posts,Long> {
 }
 ```
+
 
 </br>
 
@@ -132,9 +153,10 @@ public interface PostsRepository extends JpaRepository<Posts,Long> {
 - JPA의 핵심 내용은 엔티티가 영속성 컨텍스트에 포함되어 있냐 아니냐로 갈린다.
 - JPA의 엔티티 매니저(EntityManager)가 활성화된 상태로 트랜잭션 안에서 데이터베이스에서 데이터를 가져오면 이 데이터는 영속성 컨텍스트가 유지된 상태이다.
 - 이 상태에서 해당 데이터 값을 변경하면 트랜잭션이 끝나는 시점에 해당 테이블에 변경분을 반영한다. 즉, Entity 객체의 값만 변경하면 별도로 Update 쿼리를 날릴 필요가 없다. 이 개념을 <Strong>더티 체킹(DirtyChecking)</Strong>이라고 한다.
-- 참고 링크 : <a href="https://jojoldu.tistory.com/415">더티 체킹(DirtyChecking)이란?</a>
+- 참고 링크 : [더티체킹이란?(타)](https://jojoldu.tistory.com/415)
 
-</br>
+
+</br></br>
 
 ### JPA Auditing으로 생성시간/수정시간 자동화하기
 </br>
@@ -149,6 +171,7 @@ public void savePosts(){
 
 JPA Auditing 적용 - `BaseTimeEntity.java`</br>
 모든 Entity의 상위 클래스가 되어 Entity들의 CreatedDate, modifiedDate를 자동으로 관리함.
+
 ```java
 import java.time.LocalDateTime;
 import javax.persistence.EntityListeners;
@@ -174,6 +197,7 @@ public class BaseTimeEntity {
 ```
 
 `Posts.java`클래스가 BaseTimeEntity를 상속받도록 변경.
+
 ```java
 public class Posts extends BaseTimeEntity{
   ...
@@ -182,10 +206,11 @@ public class Posts extends BaseTimeEntity{
 
 </br>
 
-<hr></br>
+---
 
-<h3> Annotation 정리
+</br>
 
+### Annotation 정리
 
 </br>
 
@@ -197,7 +222,7 @@ public class Posts extends BaseTimeEntity{
 3. `@GeneratedValue`
    - PK의 생성 규칙을 나타냄
    - 스프링 부트 2.0에서는 `GenerationType.IDENTITY` 옵션을 추가해야만 `auto_increment` 됨
-   - <a href = 'https://jojoldu.tistory.com/295'>블로그 참고</a>
+   - [블로그 참고](https://jojoldu.tistory.com/295)
 4. `@Column`
    - 테이블의 칼럼을 나타내며 굳이 선언하지 않아도 해당 클래스의 필드는 모두 칼럼이 된다
    - 칼럼의 기본값 외에 추가로 변경이 필요한 옵션이 있으면 사용한다.
@@ -237,11 +262,11 @@ public class Posts extends BaseTimeEntity{
 13. `SpringSecurity` Annotation
     - `@EnableWebSecurity`
       - Spring Security 설정들을 활성화시켜 준다.
-    - 
 
 </br>
 
 생성자와 `Builder`의 차이
+
 ```java
 //생성자
 //a와 b의 위치를 변경해도 코드를 실행하기 전까지는 문제를 찾을 수 없음.
@@ -257,23 +282,25 @@ Example.builder()
 ```
 
 `application.properties`
+
 ```properties
 # 쿼리 로그 ON
 spring.jpa.show_sql = true
 # 쿼리 로그를 MySQL버전으로 변경
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect;
-
 ```
 
 </br>
 
-<hr></br>
-
-<h3>⭐ Spring 웹 계층
+---
 
 </br>
 
-<img src="README_image/spring_layer.png">
+### ⭐ Spring 웹 계층
+
+</br>
+
+![alt text](./README_image/spring_layer.png "Spring 웹 계층")
 
 </br>
 
@@ -296,12 +323,15 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialec
   - 다만, 무조건 데이터베이스와 테이블과 관계가 있어야만 하는 것은 아님.
     - VO처럼 값 객체들도 이 영역에 해당하기 때문❓
 
-
 ⚡ 5가지 레이어 중에서 비즈니스 처리를 담당해야 할 곳은 `Domain` 이다.
 ⚡ Entity 클래스를 Request/Response 클래스로 사용해서는 안된다.
 ⚡ View Layer와 DB Layer의 역할 분리를 철저하게 하는 것이 좋음.
 
-</br><hr></br>
+</br>
+
+---
+
+</br>
 
 모든 로직이 서비스 클래스 내부에서 처리되는</br>
 주문취소 트랜잭션 스크립트 의사코드(pseudocode)
@@ -319,6 +349,7 @@ public Order cancelOrder(int orderId){
  ```
 
 실제코드
+
  ```java
 @Transactional
 public Order cancelOrder(int orderId){
@@ -342,8 +373,9 @@ public Order cancelOrder(int orderId){
     return order;
 }
  ```
- - 모든 로직이 서비스 클래스 내부에서 처리되다보니 서비스 계층이 무의미
- - 객체란 단순히 데이터 덩어리 역할만 하게 됨.
+
+- 모든 로직이 서비스 클래스 내부에서 처리되다보니 서비스 계층이 무의미
+- 객체란 단순히 데이터 덩어리 역할만 하게 됨.
 
 </br>
 
@@ -367,32 +399,41 @@ public Order cancelOrder(int orderId){
     return order;
 }
 ```
+
 - order, billing, delivery가 각자 본인의 취소 이벤트를 처리
 - 서비스 메소드는 트랜잭션과 도메인 간의 순서만 보장해 줌
 
-</br><hr></br>
+</br>
+
+---
+
+</br>
 
 ## 머스테치(Mustache)로 화면 구성
 
 </br>
 
 ### 템플릿 엔진이란?
+
 지정된 템플릿 양식과 데이터가 합쳐져 HTML 문서를 출력하는 소프트웨어</br>
+
 - 서버템플릿 엔진: JSP, FreeMarker 등</br>
 - 클라이언트 템플릿 엔진: React, Vue 등</br>
 
 서버 템플릿 엔진을 이용한 화면 생성은 서버에서 Java 코드로 문자열을 만든 뒤 이 문자열을 HTML로 변환하여 브라우저로 전달함.</br>
-반면에 클라이언트 템플릿 엔진의 자바스크립트는 브라우저 위에서 작동한다. 브라우저에서 작동될 때는 서버 템플릿 엔진의 손을 벗어나 제어할 수가 없다. 서버에서는 Json 또는 Xml 형식의 데이터만 전달하고 클라이언트에서 조립한다.
+반면에 클라이언트 템플릿 엔진의 자바스크립트는 브라우저 위에서 작동한다. 브라우저에서 작동될 때는 서버 템플릿 엔진의 손을 벗어나 제어할 수가 없다. 서버에서는 Json 또는 Xml 형식의 데이터만 전달하고 클라이언트에서 조립한
+다.
 
 </br>
 
 ### 머스테치란? (what is Mustach)
 
-<img src="README_image/mustache.png"> 
+![alt text](README_image/mustache.png "Mustache logo")
 
 머스테치는 수많은 언어를 지원하는 가장 심플한 템플릿 엔진이다.</br>
 Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 있다.</br>
-그러다 보니 자바에서 사용될 때는 서버 템플릿 엔진으로, JS에서 사용될 때는 클라이언트 템플릿 엔진으로 모두 사용할 수 있다.
+그러다 보니 자바에서 사용될 때는 서버 템플릿 엔진으로, JS에서 사용될 때는 클라이언트 템플릿 엔진으로 모두 사용할 수 있
+다.
 
 </br>
 
@@ -400,20 +441,24 @@ Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 �
 
 - JSP, Velocity: 스프링 부트에서는 권장하지 않는 템플릿 엔진.
 - Freemarker: 템플릿 엔진으로는 너무 과하게 많은 기능을 지원한다. 높은 자유도로 인해 숙련도가 낮을수록 Freemarker 안에 비즈니스 로직이 추가될 확률이 높다.
-- Thymleaf: 스프링 진영에서 적극적으로 밀고 있지만 문법이 어렵다. HTML 태그에 속성으로 템플릿 기능을 사용하는 방식이 높은 허들로 느껴지는 경우가 많다. Vue를 사용해 본 경험이 있어 태그 속성 방식이 익숙하다면 Thymleaf를 선택해도 된다.
+- Thymleaf: 스프링 진영에서 적극적으로 밀고 있지만 문법이 어렵다. HTML 태그에 속성으로 템플릿 기능을 사용하는 방식이 높은 허들로 느껴지는 경우가 많다. Vue를 사용해 본 경험이 있어 태그 속성 방식이 익숙하다면 Thymleaf를
+ 선택해
+도 된다.
 
 ### Mustach의 장점
+
 - 문법이 다른 템플릿 엔진보다 심플하다.
 - 로직 코드를 사용할 수 없어 View의 역할과 서버의 역할이 명확하게 분리됨.
-- `Mustache.js`와 `Mustache.java` 2가지가 다 있어, 하나의 문법으로 클라이언트/서버 템플릿을 모두 사용 가능하다.
+- `Mustache.js`와 `Mustache.java` 2가지가 다 있어, 하나의 문법으로 클라이언트/서버 템플릿을 모두 사용 가능하
+다.
 
 </br>
 
-### Mustache 기본 문법 
+### Mustache 기본 문법
 
 </br>
 
-출처: <a href="https://bibi6666667.tistory.com/269">티스토리 블로그</a>
+출처: - [티스토리 블로그](https://bibi6666667.tistory.com/269)
 
 - 변수
   - `{{` , `}}` 사이에 변수명을 입력한다.
@@ -440,7 +485,11 @@ Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 �
 - 주석
   - `{{!` 로 시작하고 `}}` 로 끝난다.
 
-</br><hr></br>
+</br>
+
+---
+
+</br>
 
 ## 스프링 시큐리티와 OAuth 2.0
 
@@ -448,18 +497,19 @@ Ruby,JS,Python,Java,Perl,Go 등 현존하는 대부분 언어를 지원하고 �
 
 ### 스프링 시큐리티(Spring Security)
 
-<img src="./README_image/security.jpg">
+![alt text](./README_image/security.jpg "Spring Security")
 
 </br>
 
 - 막강한 인증(Authentication)과 인가(Authorization) 기능을 가진 프레임워크
-- 인터셉터, 필터 기반의 보안 기능을 구현하는 것 보다 스프링 시큐리티를 통해 구현하는 것을 적극적으로 권장하고 있다.
+- 인터셉터, 필터 기반의 보안 기능을 구현하는 것 보다 스프링 시큐리티를 통해 구현하는 것을 적극적으로 권장하고 있
+다.
 
 </br>
 
 ### OAuth
 
-<img src="./README_image/oauth.jpg">
+![alt text](./README_image/oauth.jpg "소셜 로그인")
 
 </br>
 
@@ -471,14 +521,26 @@ OAuth를 사용하면 구현하지 않아도 되는 기능들
 - 비밀번호 변경
 - 회원정보 변경
 
-OAuth 로그인 구현 시 앞선 목록의 것들을 구글, 페이스북, 네이버 등에 맡기면 되니 서비스 개발에 집중할 수 있다 👍
+OAuth 로그인 구현 시 앞선 목록의 것들을 구글, 페이스북, 네이버 등에 맡기면 되니 서비스 개발에 집중할 수 있다
+ 👍
 
 </br>
 
+## 구글 OAuth 로그인 구현 코드
 
-`SpringConfig.java` (💡 이해가 잘 안됨)
+</br>
+
+`SecurityConfig.java` (💡 이해가 잘 안됨)
 
 ```java
+@RequiredArgsConstructor
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+    
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
         http
             .csrf().disable()
             .headers().frameOptions().disable()
@@ -494,6 +556,8 @@ OAuth 로그인 구현 시 앞선 목록의 것들을 구글, 페이스북, 네�
                 .oauth2Login()
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService);
+    }
+}
 ```
 
 - `csrf().disable().headers().frameOptions().disable()`
@@ -520,3 +584,60 @@ OAuth 로그인 구현 시 앞선 목록의 것들을 구글, 페이스북, 네�
 - `userService`
   - 소셜 로그인 성공 시 후속 조치를 진행할 UserService 인터페이스의 구현체를 등록한다.
   - 리소스 서버(즉, 소셜 서비스들)에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능을 명시할 수 있다.
+
+</br>
+
+`CustomOAuth2UserService.java`
+
+```java
+@RequiredArgsConstructor
+@Service
+public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{
+    private final UserRepository userRepository;
+    private final HttpSession httpSession;
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
+        
+        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+        
+        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+
+        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+
+        User user = saveOrUpdate(attributes);
+        
+        httpSession.setAttribute("user", new SessionUser(user));
+
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
+                attributes.getAttributes(),
+                attributes.getNameAttributeKey());
+    }
+
+    private User saveOrUpdate(OAuthAttributes attributes){
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .orElse(attributes.toEntity());
+
+        return userRepository.save(user);
+    }
+}
+```
+
+- `registrationId`
+  - 현재 로그인 진행 중인 서비스를 구분하는 코드
+  - 지금은 구글만 사용하는 불필요한 값이지만, 이후 네이버 로그인 연동 시에 네이버 로그인인지, 구글 로그인인지 구분하기 위해 사용.
+- `userNameAttributeName`
+  - OAuth2 로그인 신행 시 키가 되는 필드값을 뜻함. Primary Key와 같은 의미.
+  - 구글의 경우 기본적으로 코드를 지원하지만, 네이버 카카오 등은 기본 지원하지 않는다. 구글의 기본 코드는 "sub" 이다.
+- `OAuthAttributes`
+  - OAuth2UserService를 통해 가져온 OAuth2User의 attribute(속성)을 담은 클래스이다.
+  - 이후 네이버 등 다른 소셜 로그인도 이 클래스를 사용한다.
+- `SessionUser`
+  - 세션에 사용자 정보를 저장하기 위한 Dto 클래스.
+  - ❓왜 User 클래스를 쓰지 않고 새로 만들어서 쓰는가❓
