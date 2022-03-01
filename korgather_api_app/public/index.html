@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+		/>
+		<script src="js/index.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+	</head>
+	<body>
+		<section class="section">
+			<div class="container">
+				<p class="title">게더타운 한국커뮤니티 코게더</p>
+				<div class="tabs">
+					<ul>
+						<li class="is-active" data-tab="tab-qa"><a>Quality and QA</a></li>
+						<li data-tab="tab-schedule"><a>Schedule</a></li>
+					</ul>
+				</div>
+				<div class="tabs-content">
+					<div data-tab="tab-qa">
+						<div class="section">
+							<div class="box">
+								<!-- Form -->
+								<h1 class="title">배경음악 삽입</h1>
+
+								<!-- Name -->
+								<div class="field">
+									<label class="label"> API KEY: </label>
+									<p class="control">
+										<input
+											id="api_key"
+											class="input"
+											type="text"
+											placeholder="API Key를 입력해주세요."
+										/>
+									</p>
+								</div>
+
+								<!-- Username -->
+								<div class="field">
+									<label class="label"> Map ID </label>
+									<p class="control has-icons-right">
+										<input
+											id="map_id"
+											class="input is-success"
+											type="text"
+											placeholder="Map ID를 입력해주세요."
+										/>
+										<span class="icon is-left">
+											<i class="fas fa-user"></i>
+										</span>
+										<span class="icon is-right">
+											<i class="fas fa-check"></i>
+										</span>
+									</p>
+									<p class="help is-success">형식이 올바릅니다.</p>
+								</div>
+
+								<!-- Email -->
+								<div class="field">
+									<label class="label"> 적용할 Room 이름: </label>
+									<p class="control has-icons-right">
+										<input
+											id="room_name"
+											class="input is-danger"
+											type="text"
+											placeholder="Email"
+										/>
+										<span class="icon is-left">
+											<i class="fas fa-envelope"></i>
+										</span>
+										<span class="icon is-right">
+											<i class="fas fa-times"></i>
+										</span>
+									</p>
+									<p class="help is-danger">형식이 올바르지 않습니다.</p>
+								</div>
+
+								<!-- Subject -->
+								<div class="field">
+									<label class="label"> 오브젝트 </label>
+									<div class="control">
+										<div class="select">
+											<select>
+												<option>Blank</option>
+												<option>Sound Emittor</option>
+												<option>Fire Fit</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<!-- Message -->
+								<div class="field">
+									<label class="label"> Message </label>
+									<div class="control">
+										<textarea class="textarea" placeholder="Message"></textarea>
+									</div>
+								</div>
+
+								<!-- Terms and conditions -->
+								<div class="field">
+									<p class="control">
+										<label class="checkbox">
+											<input class="checkbox" type="checkbox" />
+											I agree to the <a href="#">terms and conditions</a>.
+										</label>
+									</p>
+								</div>
+
+								<!-- Subscribe to our newsletter -->
+								<div class="field">
+									<p class="control">
+										<label class="radio">
+											<input
+												class="radio"
+												type="radio"
+												name="subscribe"
+												value="Y"
+											/>
+											Yes
+										</label>
+										<label class="radio">
+											<input
+												class="radio"
+												type="radio"
+												name="subscribe"
+												value="N"
+											/>
+											No
+										</label>
+									</p>
+								</div>
+
+								<!-- Button group -->
+								<div class="field is-grouped">
+									<p class="control">
+										<button onclick="submit()" class="button is-link">
+											Submit
+										</button>
+									</p>
+									<p class="control">
+										<button onclick="a()" class="button is-text">Cancel</button>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div data-tab="tab-schedule" style="display: none">
+						Schedule content
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
